@@ -8,7 +8,7 @@ router.route('/')
         try {
             const data = JSON.parse(fs.readFileSync('./data/comments.json'));
             return res.status(200).json(data);
-        } catch {
+        } catch (error) {
             res.status(400).json({ message: 'Error retrieving comment list', error });
         }
     })

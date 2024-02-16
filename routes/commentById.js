@@ -19,13 +19,15 @@ router.route('/:id')
                 return res.status(400).json('Missing properties in the request body.')
             }
 
-            const updatedComments = [...filteredList, { id, name, title, comment, timestamp: Date.now(), likes, replies }];
+            const timestamp = Date.now();
+
+            const updatedComments = [...filteredList, { id, name, title, comment, timestamp, likes, replies }];
 
             fs.writeFileSync("./data/comments.json", JSON.stringify(updatedComments));
 
             return res.status(201).json({ id, name, title, comment, timestamp, likes, replies });
 
-        } catch {
+        } catch (error) {
             console.error('Error editing comment:', error);
             res.status(500).json({ message: 'Error editing comment', error });
         }
@@ -51,7 +53,7 @@ router.route('/:id')
             fs.writeFileSync("./data/comments.json", JSON.stringify(filteredList));
     
             res.sendStatus(204);
-        } catch {
+        } catch (error) {
             console.error('Unable to delete comment:', error);
             res.status(500).json({ message: 'Unable to delete comment', error });
         }
