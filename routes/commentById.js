@@ -13,6 +13,9 @@ router.route('/:id')
                 return comment.id !== id;
             })
 
+            console.log(id)
+            console.log(filteredList)
+
             const { name, title, comment, likes, replies } = req.body;
 
             if (!name || !title || !comment || !likes || !replies) {
