@@ -15,7 +15,6 @@ app.use(cors());
 const PORT = process.env.PORT || 8000;
 
 app.use('/comments', commentsRoute);
-// app.use('/comments', commentsRoute);
 
 app.route('/')
     .get((_req, res) => {
