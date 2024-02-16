@@ -7,18 +7,29 @@ router.route('/')
         const data = JSON.parse(fs.readFileSync(`./data/comments.json`));
         return res.status(200).json(data);
     })
-    // .post((req, res) => {
-    //     const { title, description, image } = req.body;
+    .post((req, res) => {
+        try {
+            const commentsData = JSON.parse(fs.readFileSync('./data/comments.json'));
+    
+            const newComment = {
+                id: commentsData.length + 1, 
+                name: req.body.name,
+                title: req.body.title,
+                comment: req.body.comment,
+                timestamp: Date.now(), 
+                likes: 0, 
+                replies: [] 
+            };
+    
+            commentsData.push(newComment);
 
-    //     if (!title || !description) {
-    //         return res.status(400).json("All video uploads must have a title and a description.")
-    //     }
+            fs.writeFileSync('./data/comments.json', JSON.stringify(commentsData, null, 2));
 
-    //     const data = JSON.parse(fs.readFileSync(`./data/videos.json`));
-    //     const id = uuid.v4();
-    //     const newVideo = {id, title, description, image}; 
-    //     fs.writeFileSync("./data/videos.json", JSON.stringify([...data, newVideo]));
-    //     return res.status(201).json(newVideo);
-    // })
+            res.status(201).json({ message: 'Comment added successfully', comment: newComment });
+        } catch (error) {
+            console.error('Error adding comment:', error);
+            res.status(500).json({ error: 'Failed to add comment' });
+        }
+    })
 
 module.exports = router;
