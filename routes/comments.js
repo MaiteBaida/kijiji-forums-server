@@ -1,18 +1,29 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
+const uuid = require('uuid');
 
 router.route('/')
     .get((_req, res) => {
-        const data = JSON.parse(fs.readFileSync(`./data/comments.json`));
-        return res.status(200).json(data);
+        try {
+            const data = JSON.parse(fs.readFileSync('./data/comments.json'));
+            return res.status(200).json(data);
+        } catch {
+            res.status(400).json({ message: 'Error retrieving comment list', error });
+        }
     })
     .post((req, res) => {
         try {
             const commentsData = JSON.parse(fs.readFileSync('./data/comments.json'));
-    
+            
+            const { name, title, comment } = req.body;
+
+            if (!name || !title || !comment) {
+                return res.status(400).json('All posts must have a name, title and a comment.')
+            }
+
             const newComment = {
-                id: commentsData.length + 1, 
+                id: uuid.v4(), 
                 name: req.body.name,
                 title: req.body.title,
                 comment: req.body.comment,
