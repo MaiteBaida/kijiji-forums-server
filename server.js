@@ -6,8 +6,7 @@ require('dotenv').config();
 const app = express();
 
 const commentsRoute = require('./routes/comments');
-// const editRoute = require('/comments/:id/edit');
-// const deleteRoutes = require('/comments/:id/delete');
+const commentById = require('./routes/commentById')
 
 app.use(express.json());
 app.use(cors());
@@ -15,6 +14,7 @@ app.use(cors());
 const PORT = process.env.PORT || 8000;
 
 app.use('/comments', commentsRoute);
+app.use('/comments/:id', commentById)
 
 app.route('/')
     .get((_req, res) => {
