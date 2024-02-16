@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const app = express();
 
-const commentsRoute = require('/comments');
+const commentsRoute = require('./routes/comments');
 // const editRoute = require('/comments/:id/edit');
 // const deleteRoutes = require('/comments/:id/delete');
 

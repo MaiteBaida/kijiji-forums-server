@@ -20,3 +20,5 @@ router.route('/')
     //     fs.writeFileSync("./data/videos.json", JSON.stringify([...data, newVideo]));
     //     return res.status(201).json(newVideo);
     // })
+
+module.exports = router;
